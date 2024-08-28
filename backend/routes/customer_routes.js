@@ -110,7 +110,7 @@ router.put('/updateCustomer/:id',upload.single('profileImg'),
                 user.lastname = updatedCustomer.lastname
                 user.email = updatedCustomer.email
                 user.note = updatedCustomer.note
-                user.profileImg = updatedProfileImg
+                user.profileImg = updatedProfileImg ? updatedProfileImg : user.profileImg
                 user.save().then(() => res.json(user)).catch(() => res.send('request failed'))
             }
             else {

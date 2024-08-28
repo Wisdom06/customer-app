@@ -1,5 +1,5 @@
 import { Outlet,useLoaderData,Form,redirect, NavLink, useNavigation,useSubmit,} from "react-router-dom";
-import {getContacts, createContact, getCustomers, createCustomer} from "../customers.js";
+import { getCustomers, createCustomer} from "../customers.js";
 import { useEffect } from "react";
 
 export async function loader({ request }) {
@@ -8,12 +8,17 @@ export async function loader({ request }) {
 
     const q = url.searchParams.get("q");
     const customers = await getCustomers(q);
+    console.log(customers)
     return { customers,q };
 }
 
-export async function action() {
-    const customer = await createCustomer();
-    return redirect(`/customers/${customer.id}/edit`);
+export async function action({request}) {
+    if (request.method === 'POST') {
+            const customer = await createCustomer();
+            return redirect(`/customers/${customer.id}/edit`);
+        }
+    console.log(Hello)
+    return null;
 }
 
 export default function Root() {

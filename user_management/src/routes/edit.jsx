@@ -1,40 +1,48 @@
 import {Form, useLoaderData, redirect, useNavigate, useParams} from "react-router-dom";
-import {updateContact, updateCustomer} from "../customers.js";
+import { updateCustomer} from "../customers.js";
 import { Dropzone, FileMosaic } from "@files-ui/react";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
-// export async function action({ request, params }) {
-//     const formData = await request.formData();
-//     const updates = Object.fromEntries(formData);
-//     // const email = formData.get('email');
-//     // console.log(email)
-//     const file = formData.get('profileImg');
-//     console.log(file)
-//     await updateCustomer(params.customerId, formData);
-//     return null
-// }
+export async function action({ request, params }) {
+    const formData = await request.formData();
+    console.log(formData.get('firstname'))
+    if (formData.get('profileImg')) {
+        await updateCustomer(params.customerId, formData);
+    }
+
+    return redirect(`/customers/${params.customerId}`);
+}
 
 export default function EditContact() {
     const {customerId} = useParams()
     const { customer } = useLoaderData();
     const navigate = useNavigate();
     const [profileImage,setProfileImage] = useState(null)
-    async function handleSubmit(e) {
-        // e.preventDefault();
-        const formData = new FormData(e.target);
-        console.log(formData.get('firstname'))
-        if (profileImage) {
-            // Ajouter le fichier d'image de profil sélectionné dans formData
-            formData.append("profileImg", profileImage);
+    const fileInputRef = useRef(null)
+    useEffect(() => {
+        if (profileImage && fileInputRef.current) {
+            // Mettre à jour l'input de fichier invisible avec l'image du Dropzone
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(profileImage);
+            fileInputRef.current.files = dataTransfer.files;
         }
-        console.log(customer)
-        await updateCustomer(customerId, formData);
-        navigate(`/customers/${customerId}`);
-    }
+    }, [profileImage]);
+    // async function handleSubmit(e) {
+    //     // e.preventDefault();
+    //     const formData = new FormData(e.target);
+    //     console.log(formData.get('firstname'))
+    //     if (profileImage) {
+    //         // Ajouter le fichier d'image de profil sélectionné dans formData
+    //         formData.append("profileImg", profileImage);
+    //     }
+    //     console.log(customer)
+    //     await updateCustomer(customerId, formData);
+    //     navigate(`/customers/${customerId}`);
+    // }
 
     return (
-        <Form method="post" id="contact-form" encType="multipart/form-data"
-              onSubmit={handleSubmit}
+        <Form method="put" id="contact-form" encType="multipart/form-data"
+              // onSubmit={handleSubmit}
 
         >
             <p>
@@ -69,6 +77,13 @@ export default function EditContact() {
 
             </label>
             <FileInput setProfileImage={setProfileImage}/>
+            <input
+                ref={fileInputRef} // Référence pour lier à l'image du Dropzone
+                type="file"
+                name="profileImg"
+                accept="image/*"
+                style={{display: 'none'}} // Masquer l'input de fichier natif
+            />
             <label>
                 <span>Notes</span>
                 <textarea
@@ -88,7 +103,7 @@ export default function EditContact() {
     )
 }
 
-export function FileInput({ setProfileImage }) {
+export function FileInput({setProfileImage}) {
     const [files, setFiles] = useState([]);
 
     const updateFiles = (incomingFiles) => {

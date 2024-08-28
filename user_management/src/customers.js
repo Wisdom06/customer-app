@@ -97,23 +97,15 @@ export async function updateCustomer(id, custumerUpdates) {
         .then(response => response.data)
         .then(customer => {
             console.log("Client mis à jour :", customer);
-            getCustomers()
+
             return customer;
+            getCustomers()
         })
         .catch(err => {
             console.error("Erreur lors de la mise à jour du client :", err);
         });
 }
 
-export async function updateContact(id, updates) {
-    await fakeNetwork();
-    let contacts = await localforage.getItem("contacts");
-    let contact = contacts.find(contact => contact.id === id);
-    if (!contact) throw new Error("No contact found for", id);
-    Object.assign(contact, updates);
-    await set(contacts);
-    return contact;
-}
 export async function deleteCustomer(id){
     await customerApi.delete(`/deleteCustomer/${id}`)
         .then(response => console.log('delete a customer'))
@@ -130,24 +122,3 @@ export async function deleteContact(id) {
     return false;
 }
 
-function set(contacts) {
-    return localforage.setItem("contacts", contacts);
-}
-
-// fake a cache so we don't slow down stuff we've already seen
-let fakeCache = {};
-
-async function fakeNetwork(key) {
-    if (!key) {
-        fakeCache = {};
-    }
-
-    if (fakeCache[key]) {
-        return;
-    }
-
-    fakeCache[key] = true;
-    return new Promise(res => {
-        setTimeout(res, Math.random() * 800);
-    });
-}

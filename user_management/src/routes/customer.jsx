@@ -1,5 +1,5 @@
 import { Form,useFetcher,useLoaderData, useParams, } from "react-router-dom";
-import {getContact, getCustomer, updateContact, updateCustomer} from "../customers.js";
+import { getCustomer,} from "../customers.js";
 import {useEffect, useState} from "react";
 
 export async function loader({params}) {

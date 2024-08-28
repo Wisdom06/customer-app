@@ -1,5 +1,5 @@
 import {Form, useLoaderData, redirect, useNavigate, useParams} from "react-router-dom";
-import {updateContact, updateCustomer} from "../contact.js";
+import {updateContact, updateCustomer} from "../customers.js";
 import { Dropzone, FileMosaic } from "@files-ui/react";
 import {useEffect, useState} from "react";
 
@@ -20,7 +20,7 @@ export default function EditContact() {
     const navigate = useNavigate();
     const [profileImage,setProfileImage] = useState(null)
     async function handleSubmit(e) {
-        e.preventDefault();
+        // e.preventDefault();
         const formData = new FormData(e.target);
         console.log(formData.get('firstname'))
         if (profileImage) {

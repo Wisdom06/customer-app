@@ -1,5 +1,5 @@
 import { Form,useFetcher,useLoaderData, useParams, } from "react-router-dom";
-import {getContact, getCustomer, updateContact, updateCustomer} from "../contact.js";
+import {getContact, getCustomer, updateContact, updateCustomer} from "../customers.js";
 import {useEffect, useState} from "react";
 
 export async function loader({params}) {
@@ -20,7 +20,7 @@ export async function loader({params}) {
 //     });
 // }
 
-export default function Contact() {
+export default function Customer() {
     const params = useParams()
     console.log(params);
 

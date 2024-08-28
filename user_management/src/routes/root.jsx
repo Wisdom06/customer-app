@@ -1,5 +1,5 @@
 import { Outlet,useLoaderData,Form,redirect, NavLink, useNavigation,useSubmit,} from "react-router-dom";
-import {getContacts, createContact, getCustomers, createCustomer} from "../contact.js";
+import {getContacts, createContact, getCustomers, createCustomer} from "../customers.js";
 import { useEffect } from "react";
 
 export async function loader({ request }) {

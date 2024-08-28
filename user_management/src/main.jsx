@@ -7,7 +7,7 @@ import {
 import './index.css'
 import ErrorPage from './error-page.jsx';
 import Root, { loader as rootLoader,action as rootAction, } from "./routes/root";
-import Contact,{ loader as contactLoader,/*action as contactAction,*/ } from './routes/contact.jsx';
+import Customer,{ loader as customerLoader,/*action as contactAction,*/ } from './routes/customer.jsx';
 import EditContact /*{action as editAction,}*/ from "./routes/edit";
 import Destroy, {action as destroyAction} from './routes/destroy.jsx';
 import Index from "./routes/index";
@@ -28,14 +28,14 @@ const router = createBrowserRouter([
                 {
 
                     path:'customers/:customerId',
-                    element:<Contact/>,
-                    loader: contactLoader,
+                    element:<Customer/>,
+                    loader: customerLoader,
                     // action: contactAction,
                 },
                 {
                     path: "customers/:customerId/edit",
                     element: <EditContact />,
-                    loader: contactLoader,
+                    loader: customerLoader,
                     // action: editAction
                 },
                 {

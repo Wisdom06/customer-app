@@ -31,9 +31,9 @@ export async function getContacts(query) {
 }
 export async function createCustomer(){
     const defaultCustomer = {
-        firstname:'wisy',
-        lastname: 'wis',
-        email: null,
+        firstname:'firstname',
+        lastname: 'lastname',
+        email: 'email@gail.com',
         note:null,
         profileImg: null
     }
@@ -97,6 +97,7 @@ export async function updateCustomer(id, custumerUpdates) {
         .then(response => response.data)
         .then(customer => {
             console.log("Client mis à jour :", customer);
+            getCustomers()
             return customer;
         })
         .catch(err => {
